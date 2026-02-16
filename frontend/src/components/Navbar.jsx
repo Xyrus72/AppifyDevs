@@ -16,7 +16,7 @@ const Navbar = () => {
       </Link>
       <div className="hidden md:flex gap-10 font-semibold">
         <Link to="/" className="text-gray-300 hover:text-blue-400 transition duration-300 text-lg">Home</Link>
-        <a href="#" className="text-gray-300 hover:text-purple-400 transition duration-300 text-lg">Products</a>
+        {user && <Link to="/products" className="text-gray-300 hover:text-purple-400 transition duration-300 text-lg">Products</Link>}
         <a href="#" className="text-gray-300 hover:text-cyan-400 transition duration-300 text-lg">About</a>
         <a href="#" className="text-gray-300 hover:text-pink-400 transition duration-300 text-lg">Contact</a>
       </div>

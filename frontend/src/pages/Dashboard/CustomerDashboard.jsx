@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { Link } from 'react-router-dom'
 
 const CustomerDashboard = () => {
   const { user, logout } = useAuth()
@@ -62,23 +63,39 @@ const CustomerDashboard = () => {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-black mb-8 text-white">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: '📦', title: 'View Orders', desc: 'Track and manage all your purchases', color: 'blue', link: 'My Orders' },
-              { icon: '❤️', title: 'Wishlist', desc: 'Browse your saved items', color: 'red', link: 'My Wishlist' },
-              { icon: '⚙️', title: 'Settings', desc: 'Manage your account preferences', color: 'gray', link: 'Settings' }
-            ].map((action, idx) => (
-              <div key={idx} className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                <div className="relative bg-gradient-to-br from-gray-900/80 to-black border border-gray-800 group-hover:border-blue-500/30 rounded-2xl p-8 backdrop-blur-sm transition duration-300 hover:shadow-2xl">
-                  <div className="text-6xl mb-4 group-hover:scale-110 transition duration-300">{action.icon}</div>
-                  <h3 className="text-2xl font-bold mb-2 text-white">{action.title}</h3>
-                  <p className="text-gray-400 mb-6">{action.desc}</p>
-                  <button className={`w-full bg-gradient-to-r from-${action.color}-600 to-${action.color}-700 hover:from-${action.color}-500 hover:to-${action.color}-600 text-white py-3 rounded-lg font-bold transition transform hover:scale-105 shadow-lg`}>
-                    {action.link} →
-                  </button>
-                </div>
+            <Link to="/products" className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-black border border-gray-800 group-hover:border-blue-500/30 rounded-2xl p-8 backdrop-blur-sm transition duration-300 hover:shadow-2xl">
+                <div className="text-6xl mb-4 group-hover:scale-110 transition duration-300">🛍️</div>
+                <h3 className="text-2xl font-bold mb-2 text-white">Shop Products</h3>
+                <p className="text-gray-400 mb-6">Browse our amazing collection</p>
+                <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white py-3 rounded-lg font-bold transition transform hover:scale-105 shadow-lg">
+                  View Products →
+                </button>
               </div>
-            ))}
+            </Link>
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-black border border-gray-800 group-hover:border-blue-500/30 rounded-2xl p-8 backdrop-blur-sm transition duration-300 hover:shadow-2xl">
+                <div className="text-6xl mb-4 group-hover:scale-110 transition duration-300">📦</div>
+                <h3 className="text-2xl font-bold mb-2 text-white">View Orders</h3>
+                <p className="text-gray-400 mb-6">Track and manage all your purchases</p>
+                <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white py-3 rounded-lg font-bold transition transform hover:scale-105 shadow-lg">
+                  My Orders →
+                </button>
+              </div>
+            </div>
+            <div className="group relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-black border border-gray-800 group-hover:border-blue-500/30 rounded-2xl p-8 backdrop-blur-sm transition duration-300 hover:shadow-2xl">
+                <div className="text-6xl mb-4 group-hover:scale-110 transition duration-300">⚙️</div>
+                <h3 className="text-2xl font-bold mb-2 text-white">Settings</h3>
+                <p className="text-gray-400 mb-6">Manage your account preferences</p>
+                <button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white py-3 rounded-lg font-bold transition transform hover:scale-105 shadow-lg">
+                  Settings →
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

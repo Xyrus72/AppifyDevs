@@ -1,0 +1,167 @@
+[
+  {
+    "id": 1,
+    "name": "Davidoff Espresso Coffee 100gm",
+    "price": 1150,
+    "category": "Coffee",
+    "rating": 4.8,
+    "reviews": 342,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/coffee-premium.jpg",
+    "inStock": true,
+    "description": "Premium espresso coffee blend from Davidoff"
+  },
+  {
+    "id": 2,
+    "name": "Kazi & Kazi Green Tea 60gm (Tea Bag)",
+    "price": 215,
+    "category": "Tea",
+    "rating": 4.6,
+    "reviews": 287,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/green-tea.jpg",
+    "inStock": true,
+    "description": "Fresh green tea bags from Kazi & Kazi"
+  },
+  {
+    "id": 3,
+    "name": "ACI Pure Turmeric Powder 200gm",
+    "price": 120,
+    "category": "Spices",
+    "rating": 4.6,
+    "reviews": 389,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/turmeric.jpg",
+    "inStock": true,
+    "description": "Pure turmeric powder by ACI"
+  },
+  {
+    "id": 4,
+    "name": "ACI Pure Coriander Powder 200gm",
+    "price": 110,
+    "category": "Spices",
+    "rating": 4.5,
+    "reviews": 156,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/coriander.jpg",
+    "inStock": true,
+    "description": "Fresh coriander powder"
+  },
+  {
+    "id": 5,
+    "name": "Harpoon Liquid Toilet Cleaner 500ml",
+    "price": 130,
+    "category": "Cleaning",
+    "rating": 4.7,
+    "reviews": 245,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/toilet-cleaner.jpg",
+    "inStock": true,
+    "description": "Powerful toilet cleaner"
+  },
+  {
+    "id": 6,
+    "name": "Bisk Club Sugar Free Cracker Biscuit 200gm",
+    "price": 95,
+    "category": "Biscuits",
+    "rating": 4.4,
+    "reviews": 178,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/biscuit.jpg",
+    "inStock": true,
+    "description": "Sugar-free biscuit option"
+  },
+  {
+    "id": 7,
+    "name": "SIS Low GI Sugar 350gm",
+    "price": 258,
+    "category": "Diabetic Products",
+    "rating": 4.8,
+    "reviews": 312,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/low-gi-sugar.jpg",
+    "inStock": true,
+    "description": "Low glycemic index sugar substitute"
+  },
+  {
+    "id": 8,
+    "name": "Davidoff Café Rich Aroma 100gm",
+    "price": 1200,
+    "category": "Coffee",
+    "rating": 4.9,
+    "reviews": 428,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/coffee-rich.jpg",
+    "inStock": true,
+    "description": "Rich aroma coffee from Davidoff"
+  },
+  {
+    "id": 9,
+    "name": "Nescafé Classic Instant Coffee 100gm",
+    "price": 580,
+    "category": "Coffee",
+    "rating": 4.7,
+    "reviews": 521,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/nescafe.jpg",
+    "inStock": true,
+    "description": "Classic instant coffee"
+  },
+  {
+    "id": 10,
+    "name": "Lipton Yellow Label Tea 100 Bags",
+    "price": 385,
+    "category": "Tea",
+    "rating": 4.8,
+    "reviews": 634,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/lipton-tea.jpg",
+    "inStock": true,
+    "description": "Premium Lipton tea bags"
+  },
+  {
+    "id": 11,
+    "name": "Square Biscuit 200gm Pack",
+    "price": 75,
+    "category": "Biscuits",
+    "rating": 4.5,
+    "reviews": 198,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/square-biscuit.jpg",
+    "inStock": true,
+    "description": "Popular square biscuits"
+  },
+  {
+    "id": 12,
+    "name": "Hollandia Dutch Butter 200gm",
+    "price": 450,
+    "category": "Dairy",
+    "rating": 4.9,
+    "reviews": 567,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/butter.jpg",
+    "inStock": true,
+    "description": "Premium Dutch butter"
+  },
+  {
+    "id": 13,
+    "name": "Prince Biscuit 200gm",
+    "price": 85,
+    "category": "Biscuits",
+    "rating": 4.6,
+    "reviews": 412,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/prince-biscuit.jpg",
+    "inStock": true,
+    "description": "Classic prince biscuits"
+  },
+  {
+    "id": 14,
+    "name": "FINIS Finpic Toilet Cleaner 750ml",
+    "price": 130,
+    "category": "Cleaning",
+    "rating": 4.4,
+    "reviews": 289,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/finpic.jpg",
+    "inStock": true,
+    "description": "Effective toilet cleaning solution"
+  },
+  {
+    "id": 15,
+    "name": "Taza Milk 1L (Full Cream)",
+    "price": 65,
+    "category": "Dairy",
+    "rating": 4.7,
+    "reviews": 678,
+    "image": "https://d2t8nl1y0ie1km.cloudfront.net/images/taza-milk.jpg",
+    "inStock": true,
+    "description": "Fresh full cream milk"
+  }
+]
