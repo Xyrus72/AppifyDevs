@@ -30,19 +30,25 @@ const AdminLayout = () => {
       description: 'View overall metrics and analytics'
     },
     {
-      id: 'products',
-      label: 'Products',
-      icon: '📦',
-      path: '/admin/products',
-      description: 'Manage product catalog'
-    }
-    ,
+      id: 'messages',
+      label: 'Messages',
+      icon: '💬',
+      path: '/admin/messages',
+      description: 'Chat with customers'
+    },
     {
       id: 'orders',
       label: 'Orders',
       icon: '📬',
       path: '/admin/orders',
-      description: 'Manage orders'
+      description: 'Manage & approve orders'
+    },
+    {
+      id: 'products',
+      label: 'Products',
+      icon: '📦',
+      path: '/admin/products',
+      description: 'Manage product catalog'
     },
     {
       id: 'customers',
@@ -50,6 +56,13 @@ const AdminLayout = () => {
       icon: '👥',
       path: '/admin/customers',
       description: 'View customer insights'
+    },
+    {
+      id: 'users',
+      label: 'User Management',
+      icon: '🔐',
+      path: '/admin/users',
+      description: 'Block or delete users'
     }
   ]
 

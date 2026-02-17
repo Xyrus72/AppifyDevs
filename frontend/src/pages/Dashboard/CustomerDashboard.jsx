@@ -16,14 +16,8 @@ const CustomerDashboard = () => {
     totalSpent: 0,
     activeOrders: 0
   })
-  const [chatConversation, setChatConversation] = useState(null)
-  const [chatLoading, setChatLoading] = useState(false)
-  const [chatError, setChatError] = useState('')
-  const [chatText, setChatText] = useState('')
-
   useEffect(() => {
     fetchOrders()
-    fetchChat()
   }, [])
 
   const fetchOrders = async () => {
@@ -39,7 +33,10 @@ const CustomerDashboard = () => {
 
         // Calculate stats
         const totalOrders = userOrders.length
-        const totalSpent = userOrders.reduce((sum, order) => sum + order.totalAmount, 0)
+        // Only count completed/delivered orders in totalSpent, exclude cancelled orders
+        const totalSpent = userOrders
+          .filter(order => order.status !== 'cancelled')
+          .reduce((sum, order) => sum + order.totalAmount, 0)
         const activeOrders = userOrders.filter(order => 
           order.status !== 'delivered' && order.status !== 'cancelled'
         ).length
@@ -54,48 +51,6 @@ const CustomerDashboard = () => {
       console.error('Error fetching orders:', error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const fetchChat = async () => {
-    try {
-      setChatLoading(true)
-      setChatError('')
-      const response = await fetch('http://localhost:5000/api/support/messages/my', {
-        headers: getAuthHeaders()
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setChatConversation(data.conversation)
-      } else {
-        setChatConversation(null)
-      }
-    } catch (error) {
-      console.error('Error fetching support messages:', error)
-      setChatError('Failed to load messages.')
-    } finally {
-      setChatLoading(false)
-    }
-  }
-
-  const sendChatMessage = async () => {
-    if (!chatText.trim()) return
-    try {
-      setChatError('')
-      const response = await fetch('http://localhost:5000/api/support/messages', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ text: chatText.trim() })
-      })
-      if (!response.ok) {
-        throw new Error('Failed to send message.')
-      }
-      const data = await response.json()
-      setChatConversation(data.conversation)
-      setChatText('')
-    } catch (error) {
-      console.error('Error sending support message:', error)
-      setChatError(error.message || 'Failed to send message.')
     }
   }
 
@@ -298,72 +253,6 @@ const CustomerDashboard = () => {
       )}
       {/* Footer Spacing */}
       <div className="h-20"></div>
-
-      {/* Support Chat */}
-      <section className="py-16 px-8 border-t border-gray-800 bg-black/60">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-black mb-4 text-white">Support Chat</h2>
-          <p className="text-gray-400 mb-6 text-sm">
-            Chat directly with <span className="font-semibold text-cyan-400">Admin</span> about your orders or account.
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-2 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6 h-96 flex flex-col">
-              <div className="flex-1 overflow-y-auto space-y-3 pr-2">
-                {chatLoading ? (
-                  <p className="text-gray-400 text-sm">Loading messages...</p>
-                ) : !chatConversation || chatConversation.messages.length === 0 ? (
-                  <p className="text-gray-500 text-sm">
-                    No messages yet. Start a conversation with Admin using the box on the right.
-                  </p>
-                ) : (
-                  chatConversation.messages.map((msg, idx) => (
-                    <div
-                      key={idx}
-                      className={`flex ${msg.from === 'customer' ? 'justify-end' : 'justify-start'}`}
-                    >
-                      <div
-                        className={`max-w-xs rounded-2xl px-4 py-2 text-sm ${
-                          msg.from === 'customer'
-                            ? 'bg-blue-600 text-white rounded-br-none'
-                            : 'bg-gray-800 text-gray-100 rounded-bl-none'
-                        }`}
-                      >
-                        <p className="mb-1 text-xs font-semibold">
-                          {msg.from === 'customer' ? 'You' : 'Admin'}
-                        </p>
-                        <p>{msg.text}</p>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-              {chatError && (
-                <div className="mt-3 text-xs text-red-400">
-                  {chatError}
-                </div>
-              )}
-            </div>
-            <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6 flex flex-col">
-              <label className="block text-sm font-bold text-gray-300 mb-3">
-                Send a message to Admin
-              </label>
-              <textarea
-                value={chatText}
-                onChange={(e) => setChatText(e.target.value)}
-                placeholder="Type your message here..."
-                className="flex-1 bg-gray-800/80 border border-gray-700 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500/60 focus:ring-2 focus:ring-cyan-500/20 resize-none"
-              />
-              <button
-                onClick={sendChatMessage}
-                disabled={!chatText.trim()}
-                className="mt-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:from-gray-600 disabled:to-gray-600 disabled:cursor-not-allowed text-white py-3 rounded-xl font-bold text-sm transition duration-300"
-              >
-                Send to Admin
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

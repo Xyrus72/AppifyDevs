@@ -8,6 +8,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import CustomerDashboard from "../pages/Dashboard/CustomerDashboard";
 import Products from "../pages/Products/Products";
+import NewlyArrived from "../pages/Products/NewlyArrived";
 import Checkout from "../pages/Checkout/Checkout";
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -18,6 +19,9 @@ import {
   OrderManagement,
   CustomerInsights
 } from "../pages/Admin";
+import UserManagement from "../pages/Admin/Users/UserManagement";
+import CentralChat from "../pages/Chat/CentralChat";
+import OrderApproval from "../pages/Admin/Orders/OrderApproval";
 
 
 export const router = createBrowserRouter([
@@ -70,10 +74,26 @@ export const router = createBrowserRouter([
         )
       },
       {
+        path: "newly-arrived",
+        element: (
+          <ProtectedRoute requiredRole="customer">
+            <NewlyArrived />
+          </ProtectedRoute>
+        )
+      },
+      {
         path: "checkout",
         element: (
           <ProtectedRoute requiredRole="customer">
             <Checkout />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "chat",
+        element: (
+          <ProtectedRoute>
+            <CentralChat />
           </ProtectedRoute>
         )
       }
@@ -92,6 +112,22 @@ export const router = createBrowserRouter([
         )
       },
       {
+        path: "messages",
+        element: (
+          <ProtectedRoute requiredRole="admin">
+            <CentralChat />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "orders",
+        element: (
+          <ProtectedRoute requiredRole="admin">
+            <OrderApproval />
+          </ProtectedRoute>
+        )
+      },
+      {
         path: "products",
         element: (
           <ProtectedRoute requiredRole="admin">
@@ -100,18 +136,18 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: "orders",
-        element: (
-          <ProtectedRoute requiredRole="admin">
-            <OrderManagement />
-          </ProtectedRoute>
-        )
-      },
-      {
         path: "customers",
         element: (
           <ProtectedRoute requiredRole="admin">
             <CustomerInsights />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: "users",
+        element: (
+          <ProtectedRoute requiredRole="admin">
+            <UserManagement />
           </ProtectedRoute>
         )
       }

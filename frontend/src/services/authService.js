@@ -8,6 +8,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 // Store token so we can use it for cart, orders, etc.
 const TOKEN_KEY = 'backend_token';
 
+export { BACKEND_URL };
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 export const setToken = (token) => {
   if (token) localStorage.setItem(TOKEN_KEY, token);

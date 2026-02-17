@@ -40,6 +40,9 @@ const CustomerInsights = () => {
         const byUser = new Map()
         orders.forEach(order => {
           if (!order.user || !order.user._id) return
+          // Skip cancelled orders when calculating totalSpent
+          if (order.status === 'cancelled') return
+          
           const userId = order.user._id
           const current = byUser.get(userId) || {
             id: userId,
@@ -182,10 +185,6 @@ const CustomerInsights = () => {
 
         {/* Top Buyers Table */}
         <div className="bg-gradient-to-br from-gray-900 to-gray-950 rounded-2xl border border-gray-700 overflow-hidden shadow-lg mb-8">
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-8 py-6 border-b border-gray-700">
-            <h3 className="text-2xl font-black text-white">🏆 Top 5 Customers</h3>
-          </div>
-
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -242,10 +241,10 @@ const CustomerInsights = () => {
                         <span className="text-green-400 font-bold text-sm">{buyer.repeatRate}%</span>
                       </div>
                     </td>
-                    <td className="px-8 py-6 text-center">
+                    <td className="px-8 py-6 text-center space-x-2">
                       <button
                         onClick={() => handleViewDetails(buyer)}
-                        className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition duration-300"
+                        className="bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition duration-300 inline-block"
                       >
                         👁️ View
                       </button>

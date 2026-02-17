@@ -15,29 +15,34 @@ export const AuthProvider = ({ children }) => {
   const signup = async (firstName, lastName, email, password, userRole = 'customer') => {
     try {
       const userData = await emailSignUp(firstName, lastName, email, password)
-      setUser(userData)
-      setBalance(userData.balance || 1000)
-      localStorage.setItem('user', JSON.stringify(userData))
       
       // Save signup to MongoDB backend and use ACTUAL role from response
       const signupResponse = await saveLoginToDatabase(userData, userRole)
       
-      // Use the actual role from database, NOT the user-selected role
+      // Merge Firebase user with MongoDB user data
+      let mergedUser = userData
       let actualRole = userRole
       let backendBalance = userData.balance || 1000
 
       if (signupResponse && signupResponse.user) {
+        mergedUser = {
+          ...userData,
+          _id: signupResponse.user._id,
+          balance: signupResponse.user.balance || userData.balance || 1000
+        }
         actualRole = signupResponse.user.role
         backendBalance = signupResponse.user.balance || backendBalance
       }
 
+      setUser(mergedUser)
       setRole(actualRole)
       setBalance(backendBalance)
+      localStorage.setItem('user', JSON.stringify(mergedUser))
       localStorage.setItem('role', actualRole)
       localStorage.setItem('balance', backendBalance)
       
       // Return both Firebase user and actual role so callers can route correctly
-      return { user: userData, role: actualRole }
+      return { user: mergedUser, role: actualRole }
     } catch (error) {
       console.error('Signup failed:', error)
       throw error
@@ -48,29 +53,34 @@ export const AuthProvider = ({ children }) => {
   const emailLogin = async (email, password, userRole = 'customer') => {
     try {
       const userData = await emailSignIn(email, password)
-      setUser(userData)
-      setBalance(userData.balance || 1000)
-      localStorage.setItem('user', JSON.stringify(userData))
       
       // Save login to MongoDB backend and use ACTUAL role from response
       const loginResponse = await saveLoginToDatabase(userData, userRole)
       
-      // Use the actual role from database, NOT the user-selected role
+      // Merge Firebase user with MongoDB user data
+      let mergedUser = userData
       let actualRole = userRole
       let backendBalance = userData.balance || 1000
 
       if (loginResponse && loginResponse.user) {
+        mergedUser = {
+          ...userData,
+          _id: loginResponse.user._id, // Add MongoDB _id
+          balance: loginResponse.user.balance || userData.balance || 1000
+        }
         actualRole = loginResponse.user.role
         backendBalance = loginResponse.user.balance || backendBalance
       }
 
+      setUser(mergedUser)
       setRole(actualRole)
       setBalance(backendBalance)
+      localStorage.setItem('user', JSON.stringify(mergedUser))
       localStorage.setItem('role', actualRole)
       localStorage.setItem('balance', backendBalance)
       
       // Return both Firebase user and actual role so callers can route correctly
-      return { user: userData, role: actualRole }
+      return { user: mergedUser, role: actualRole }
     } catch (error) {
       console.error('Email login failed:', error)
       throw error
@@ -113,13 +123,22 @@ export const AuthProvider = ({ children }) => {
         backendBalance = loginResponse.user.balance || backendBalance
       }
 
+      // Merge Firebase user with MongoDB user data
+      const mergedUser = {
+        ...userData,
+        _id: existingBackendUser?._id || loginResponse?.user?._id,
+        balance: backendBalance
+      }
+
+      setUser(mergedUser)
       setRole(actualRole)
       setBalance(backendBalance)
+      localStorage.setItem('user', JSON.stringify(mergedUser))
       localStorage.setItem('role', actualRole)
       localStorage.setItem('balance', backendBalance)
       
       // Return both Firebase user and actual role so callers can route correctly
-      return { user: userData, role: actualRole }
+      return { user: mergedUser, role: actualRole }
     } catch (error) {
       console.error('Login failed:', error)
       throw error

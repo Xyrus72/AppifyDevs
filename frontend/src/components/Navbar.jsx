@@ -86,6 +86,7 @@ const Navbar = () => {
       <div className="hidden md:flex gap-10 font-semibold">
         <Link to="/" className="text-gray-300 hover:text-blue-400 transition duration-300 text-lg">Home</Link>
         {user && <Link to="/products" className="text-gray-300 hover:text-purple-400 transition duration-300 text-lg">Products</Link>}
+        {user && <Link to="/newly-arrived" className="text-gray-300 hover:text-green-400 transition duration-300 text-lg">🆕 Newly Arrived</Link>}
         <a href="#" className="text-gray-300 hover:text-cyan-400 transition duration-300 text-lg">About</a>
         <a href="#" className="text-gray-300 hover:text-pink-400 transition duration-300 text-lg">Contact</a>
       </div>
@@ -115,7 +116,17 @@ const Navbar = () => {
               <span>📊</span>
               <span className="hidden sm:inline">Dashboard</span>
             </Link>
-          </>
+
+{role === 'customer' && (
+              <Link 
+                to="/chat"
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white px-4 py-2 rounded-lg font-bold transition transform hover:scale-105 shadow-lg flex items-center gap-2"
+              >
+                <span>💬</span>
+                <span className="hidden sm:inline">Support</span>
+              </Link>
+            )}
+            </>
         )}
         {user ? (
           <div className="relative" ref={profileRef}>

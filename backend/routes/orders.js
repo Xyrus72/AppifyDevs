@@ -95,6 +95,13 @@ router.post('/', requireAuth, async (req, res) => {
     cart.items = [];
     await cart.save({ session });
 
+    // Update user's totalSpent
+    await User.findByIdAndUpdate(
+      req.user._id,
+      { $inc: { totalSpent: totalAmount } },
+      { session }
+    );
+
     await session.commitTransaction();
 
     const populatedOrder = await Order.findById(order._id)
@@ -390,6 +397,29 @@ router.post('/:id/cancel', requireAuth, async (req, res) => {
       await Product.findByIdAndUpdate(
         item.product,
         { $inc: { stock: item.quantity } },
+        { session }
+      );
+    }
+
+    // Process refund if payment was made
+    if (order.paymentStatus === 'paid') {
+      await User.findByIdAndUpdate(
+        order.user,
+        {
+          $inc: { 
+            balance: order.totalAmount,
+            totalSpent: -order.totalAmount
+          },
+          $push: {
+            transactions: {
+              orderId: req.params.id,
+              amount: order.totalAmount,
+              type: 'credit',
+              status: 'completed',
+              transactionDate: new Date()
+            }
+          }
+        },
         { session }
       );
     }

@@ -58,6 +58,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 1000
     },
+    totalSpent: {
+      type: Number,
+      default: 0
+    },
     transactions: [
       {
         orderId: {
