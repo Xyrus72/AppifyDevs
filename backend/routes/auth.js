@@ -28,7 +28,9 @@ router.post('/login', async (req, res) => {
     let user = await User.findOne({ uid });
 
     if (user) {
-      // User exists - update login info
+      // IMPORTANT: For existing users, ALWAYS use their database role
+      // NEVER accept or update role from the request body
+      // This prevents security issues where frontend tries to escalate privileges
       user.lastLogin = new Date();
       user.loginCount = (user.loginCount || 0) + 1;
 
@@ -49,7 +51,7 @@ router.post('/login', async (req, res) => {
 
       await user.save();
     } else {
-      // Create new user
+      // Create new user - ONLY use role for new user creation
       user = new User({
         uid,
         email: email.toLowerCase(),
@@ -132,6 +134,38 @@ router.get('/user/:uid', async (req, res) => {
 });
 
 /**
+ * GET /api/auth/user-by-email/:email
+ * Get user information by email (case-insensitive).
+ * Used to check if an account already exists for a given email.
+ */
+router.get('/user-by-email/:email', async (req, res) => {
+  try {
+    const email = req.params.email.toLowerCase();
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    console.error('❌ Error fetching user by email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch user information by email',
+      error: error.message
+    });
+  }
+});
+
+/**
  * GET /api/auth/users
  * Get all users (admin only)
  */
@@ -149,6 +183,48 @@ router.get('/users', async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to fetch users',
+      error: error.message
+    });
+  }
+});
+
+/**
+ * DELETE /api/auth/users/:userId
+ * Delete a user by ID (admin only)
+ */
+router.delete('/users/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Prevent deletion of the only admin
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Don't allow deleting admin users
+    if (user.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete admin users'
+      });
+    }
+
+    // Delete the user
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully'
+    });
+  } catch (error) {
+    console.error('❌ Error deleting user:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to delete user',
       error: error.message
     });
   }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { emailSignUp, googleSignIn, saveLoginToDatabase } from '../../services/authService'
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +17,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const { login, signup } = useAuth()
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -42,16 +41,24 @@ const Register = () => {
     
     setLoading(true)
     try {
-      // Register user with email and password
-      await signup(
+      // Just register user with Firebase - DO NOT log them in
+      // They need to go to sign-in page to login with their credentials
+      const userData = await emailSignUp(
         formData.firstName,
         formData.lastName,
         formData.email,
-        formData.password,
-        formData.role
+        formData.password
       )
       
-      // Redirect to sign-in page after successful signup
+      // Save user to backend with their selected role (for new user creation)
+      // This way when they sign in, backend will know their role
+      await saveLoginToDatabase(userData, formData.role)
+      
+      // Clear errors and show success message
+      setError('')
+      alert(`✅ Account created successfully!\n\nEmail: ${formData.email}\n\nRole: ${formData.role}\n\nPlease sign in with your credentials.`)
+      
+      // Redirect to sign-in page (not dashboard)
       navigate('/signin')
     } catch (err) {
       setError(err.message || 'Failed to create account. Please try again.')
@@ -65,12 +72,19 @@ const Register = () => {
     setError('')
     setLoading(true)
     try {
-      await login(formData.role)
-      if (formData.role === 'admin') {
-        navigate('/admin-dashboard')
-      } else {
-        navigate('/customer-dashboard')
-      }
+      // Just sign up with Google - DO NOT log them in
+      // They need to go to sign-in page to login with their Google account
+      const userData = await googleSignIn()
+      
+      // Save user to backend with their selected role (for new user creation)
+      // This way when they sign in, backend will know their role
+      await saveLoginToDatabase(userData, formData.role)
+      
+      // Show success message
+      alert(`✅ Account created successfully!\n\nEmail: ${userData.email}\n\nRole: ${formData.role}\n\nPlease sign in with Google.`)
+      
+      // Redirect to sign-in page (not dashboard)
+      navigate('/signin')
     } catch (err) {
       setError(err.message || 'Failed to sign up with Google. Please try again.')
       console.error(err)
@@ -154,29 +168,41 @@ const Register = () => {
 
               {/* Role Selection */}
               <div>
-                <label className="block text-sm font-bold text-gray-300 mb-3">Register As</label>
+                <label className="block text-sm font-bold text-gray-300 mb-4">Register As</label>
                 <div className="grid grid-cols-2 gap-4">
-                  <label className="relative flex items-center cursor-pointer p-4 border-2 border-gray-700 rounded-2xl hover:border-blue-500 transition" style={{borderColor: formData.role === 'customer' ? '#3b82f6' : '#374151'}}>
+                  <label className="flex items-center gap-3 cursor-pointer p-4 rounded-xl border-2 transition" style={{
+                    borderColor: formData.role === 'customer' ? '#3b82f6' : '#4b5563',
+                    backgroundColor: formData.role === 'customer' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(75, 85, 99, 0.1)'
+                  }}>
                     <input
                       type="radio"
                       name="role"
                       value="customer"
                       checked={formData.role === 'customer'}
                       onChange={handleChange}
-                      className="w-5 h-5 accent-blue-600"
+                      className="w-5 h-5 accent-blue-600 cursor-pointer"
                     />
-                    <span className="ml-3 text-gray-300 font-semibold">👤 Customer</span>
+                    <div>
+                      <span className="text-gray-300 font-bold block">🛍️ Customer</span>
+                      <span className="text-gray-500 text-xs">Shop & browse</span>
+                    </div>
                   </label>
-                  <label className="relative flex items-center cursor-pointer p-4 border-2 border-gray-700 rounded-2xl hover:border-red-500 transition" style={{borderColor: formData.role === 'admin' ? '#dc2626' : '#374151'}}>
+                  <label className="flex items-center gap-3 cursor-pointer p-4 rounded-xl border-2 transition" style={{
+                    borderColor: formData.role === 'admin' ? '#ef4444' : '#4b5563',
+                    backgroundColor: formData.role === 'admin' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(75, 85, 99, 0.1)'
+                  }}>
                     <input
                       type="radio"
                       name="role"
                       value="admin"
                       checked={formData.role === 'admin'}
                       onChange={handleChange}
-                      className="w-5 h-5 accent-red-600"
+                      className="w-5 h-5 accent-red-600 cursor-pointer"
                     />
-                    <span className="ml-3 text-gray-300 font-semibold">👑 Admin</span>
+                    <div>
+                      <span className="text-gray-300 font-bold block">👑 Admin</span>
+                      <span className="text-gray-500 text-xs">Manage platform</span>
+                    </div>
                   </label>
                 </div>
               </div>

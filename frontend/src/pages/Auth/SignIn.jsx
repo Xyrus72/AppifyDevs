@@ -10,7 +10,6 @@ const SignIn = () => {
   const [error, setError] = useState('')
   const { login, emailLogin } = useAuth()
   const navigate = useNavigate()
-  const role = 'customer'
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,8 +17,10 @@ const SignIn = () => {
     setLoading(true)
     try {
       // Sign in with email and password
-      await emailLogin(email, password, role)
-      navigate('/customer-dashboard')
+      // Note: Role is determined from database, not from form selection
+      const result = await emailLogin(email, password)
+      const finalRole = result?.role
+      navigate(finalRole === 'admin' ? '/admin/dashboard' : '/dashboard')
     } catch (err) {
       setError(err.message || 'Failed to sign in. Please try again.')
       console.error(err)
@@ -34,9 +35,11 @@ const SignIn = () => {
     try {
       console.log('🔵 Google Sign-In button clicked');
       console.log('Calling login function...');
-      const result = await login(role);
+      // Note: Role is determined from database, not from form selection
+      const result = await login();
       console.log('✅ Login successful:', result);
-      navigate('/customer-dashboard')
+      const finalRole = result?.role
+      navigate(finalRole === 'admin' ? '/admin/dashboard' : '/dashboard')
     } catch (err) {
       console.error('❌ Google Sign-In Error:', err);
       const errorMessage = err?.message || 'Failed to sign in with Google. Please try again.';

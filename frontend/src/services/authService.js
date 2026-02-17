@@ -48,6 +48,10 @@ export const saveLoginToDatabase = async (userData, role = 'customer') => {
     if (response.data.token) {
       setToken(response.data.token);
     }
+    
+    // NOTE: response.data.user.role contains the ACTUAL role from the database
+    // Frontend should ALWAYS use response.data.user.role, NOT the role parameter sent
+    // This prevents privilege escalation if frontend tries to impersonate different role
     return response.data;
   } catch (error) {
     console.warn('⚠️ Failed to save login to database:', error.message);
@@ -155,6 +159,28 @@ export const getCurrentUser = () => {
 export const isUserAuthenticated = async () => {
   const user = await getCurrentUser();
   return !!user;
+};
+
+/**
+ * Get an existing backend user by Firebase UID.
+ * Returns the user object on success, or null if not found.
+ * Throws for other server errors.
+ */
+export const getBackendUserByUid = async (uid) => {
+  if (!uid) return null;
+  try {
+    const response = await axios.get(`${BACKEND_URL}/api/auth/user/${uid}`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return response.data?.user || null;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      // User not found in backend
+      return null;
+    }
+    console.error('❌ Error fetching backend user by UID:', error.message);
+    throw error;
+  }
 };
 
 /**

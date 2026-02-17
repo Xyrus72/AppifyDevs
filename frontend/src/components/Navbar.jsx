@@ -109,7 +109,7 @@ const Navbar = () => {
               <span className="hidden sm:inline">৳{balance.toLocaleString()}</span>
             </div>
             <Link 
-              to={role === 'admin' ? '/admin-dashboard' : '/customer-dashboard'}
+              to={role === 'admin' ? '/admin/dashboard' : '/dashboard'}
               className="bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2 rounded-lg font-bold transition transform hover:scale-105 shadow-lg flex items-center gap-2"
             >
               <span>📊</span>
