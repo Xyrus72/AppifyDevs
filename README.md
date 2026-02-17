@@ -1,30 +1,322 @@
-# Mini E-Commerce API – Project Overview
+# E-COMMERCE PLATFORM - COMPLETE GUIDE
 
-This repository contains a **Mini E-Commerce API** (backend) and an optional frontend that uses **Firebase** for login and **MongoDB** (via the backend) for users, products, cart, and orders.
+## FRONTEND TECH STACK
 
-## What’s inside
+### Core Framework & Build:
+- **React** (v19.2.0) - UI library with Hooks and components
+- **Vite** (v7.3.1) - Lightning-fast build tool and dev server
+- **React Router DOM** (v7.13.0) - Client-side routing for multi-page navigation
 
-- **backend/** – Node.js + Express API with MongoDB (Mongoose), JWT auth, products, cart, and orders.
-- **frontend/** – React app with Firebase auth; login is synced to the backend and a JWT is stored for API calls.
+### Styling:
+- **Tailwind CSS** (v4.1.18) - Utility-first CSS framework
+- **PostCSS** (v8.5.6) - CSS transformation tool
+- **Autoprefixer** (v10.4.24) - Vendor prefix auto-generation
 
-## Quick start
+### State & Authentication:
+- **Firebase** (v12.9.0) - Authentication, real-time data, and cloud services
+- **React Context API** - Built-in state management (AuthContext)
 
-1. **Backend**
-   - `cd backend`
-   - Copy `.env.example` to `.env` and set `MONGODB_URI` and `JWT_SECRET`
-   - `npm install` then `npm run dev`
-2. **Frontend** (optional)
-   - Set `VITE_BACKEND_URL=http://localhost:5000` in `frontend/.env`
-   - `npm install` then `npm run dev`
+### HTTP & Data:
+- **Axios** (v1.13.5) - Promise-based HTTP client for API calls
 
-## Full documentation
+### Web Scraping (Utilities):
+- **Puppeteer** (v24.37.3) - Headless browser automation
+- **Cheerio** (v1.2.0) - jQuery-like syntax for parsing HTML
 
-All submission-required details are in **[backend/README.md](backend/README.md)**:
+### Development & Linting:
+- **ESLint** (v9.39.1) - Code quality and error detection
+- **ESLint plugins** - React hooks and refresh support
+- **Vite React Plugin** - Fast React HMR (Hot Module Replacement)
 
-- **Setup instructions** – step-by-step
-- **Tech stack** – Node, Express, MongoDB, JWT, Firebase (frontend)
-- **Database schema / ER** – User, Product, Cart, Order (with diagram)
-- **Key architectural decisions** – auth flow, order total, stock, transactions
-- **Assumptions** – cart per user, order status flow, payment simulation, admin role
+### Key Frontend Features:
+- Real-time customer-admin messaging (CentralChat)
+- Product catalog with static JSON and database-driven items
+- Shopping cart with localStorage persistence
+- Secure checkout with payment processing
+- Order timeline and order history
+- Support chat interface
+- Responsive design with Tailwind CSS
 
-See also **[SETUP_GUIDE.md](SETUP_GUIDE.md)** for environment variables and a short API summary.
+---
+
+## BACKEND TECH STACK
+
+### Core Framework & Server:
+- **Node.js** - JavaScript runtime
+- **Express.js** (v4.18.2) - Web application framework and routing
+- **Nodemon** (v3.0.1) - Auto-reload development server
+
+### Database & ORM:
+- **MongoDB** - NoSQL database
+- **Mongoose** (v7.5.0) - ODM (Object Data Modeling) for MongoDB with schema validation
+
+### Authentication & Security:
+- **Firebase Admin SDK** - Server-side Firebase authentication and user management
+- **JWT** (JSON Web Tokens) (v9.0.3) - Token-based session management
+- **Express Validator** (v7.0.0) - Input validation and sanitization
+
+### API & Middleware:
+- **CORS** (v2.8.5) - Cross-Origin Resource Sharing for frontend communication
+- **dotenv** (v16.3.1) - Environment variable management
+
+### Key Backend Features:
+- RESTful API with Express.js
+- MongoDB session-based transactions for atomic operations
+- Firebase + MongoDB hybrid authentication system
+- Role-based access control (customer, admin)
+- Order management with stock tracking
+- Real-time message system with auto-polling
+- Financial transaction tracking with refund logic
+- Product management (static & dynamic)
+- User wallet and spending analytics
+
+---
+
+## KEY COMPONENTS USED ACROSS WEBSITE
+
+### Frontend:
+- React 19 - UI framework with hooks
+- Vite - Build tool and dev server
+- Tailwind CSS - Styling
+- Firebase - User authentication
+- React Router - Navigation
+- Axios - API calls
+
+### Backend:
+- Express.js - Server framework
+- MongoDB - Database
+- Mongoose - Schema & validation
+- Firebase Admin SDK - Authentication
+- JWT - Session tokens
+- MongoDB Transactions - Atomic operations
+
+### Web Scraping (Utilities):
+- Crawl4ai, DeepSeek, Groq (in development - will be improved later, public on GitHub)
+
+### Core Features:
+1. **Authentication** - Firebase + MongoDB hybrid system
+2. **Real-time Chat** - Customer-admin messaging with auto-refresh
+3. **Order Processing** - With MongoDB transactions for data consistency
+4. **Financial Tracking** - User balance, totalSpent, refund logic
+5. **Product Management** - Static catalog + admin-added products
+6. **Cart System** - With localStorage persistence
+7. **Role-based Access** - Customer vs Admin pages
+8. **Order Cancellation** - With automatic refunds and stock restoration
+
+### Database Models:
+- User (balance, totalSpent, transactions)
+- Order (items, status, timeline)
+- Product (stock, pricing)
+- Message & Conversation (chat system)
+
+---
+
+## COMPLETE SETUP GUIDE
+
+### PREREQUISITES
+
+You need to install:
+- **Node.js** (v16+) - Download from nodejs.org
+- **MongoDB** - Either local installation or MongoDB Atlas (cloud)
+- **Firebase Account** - Create at firebase.google.com
+- **Git** - For version control
+- **npm** - Comes with Node.js
+
+---
+
+## BACKEND SETUP
+
+### STEP 1: Install Dependencies
+```bash
+cd backend
+npm install
+```
+
+This installs:
+- `express` - Web server
+- `mongoose` - MongoDB connection & schemas
+- `cors` - Allow frontend requests
+- `dotenv` - Environment variables
+- `jsonwebtoken` - JWT authentication
+- `express-validator` - Input validation
+- `nodemon` - Auto-reload during development
+
+### STEP 2: Create .env File
+
+In `backend/` folder, create `.env` file with:
+
+```
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce
+PORT=5000
+NODE_ENV=development
+FIREBASE_SERVICE_ACCOUNT_KEY=path_to_your_service_account.json
+SESSION_SECRET=your_random_secret_key_here
+```
+
+Get these values:
+- `MONGODB_URI`: From MongoDB Atlas (Connection String)
+- `FIREBASE_SERVICE_ACCOUNT_KEY`: From Firebase Console > Project Settings > Service Accounts
+
+### STEP 3: Run Backend Server
+```bash
+npm start       # Production mode
+npm run dev     # Development mode (with auto-reload)
+```
+
+Server runs on: `http://localhost:5000`
+
+---
+
+## FRONTEND SETUP
+
+### STEP 1: Install Dependencies
+```bash
+cd frontend
+npm install
+```
+
+This installs:
+- `react` - UI framework
+- `react-dom` - React rendering
+- `react-router-dom` - Page routing
+- `vite` - Build tool
+- `tailwindcss` - Styling
+- `axios` - API requests
+- `firebase` - Authentication
+
+### STEP 2: Create .env File
+
+In `frontend/` folder, create `.env` file with:
+
+```
+VITE_API_BASE_URL=http://localhost:5000/api
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+Get these values from Firebase Console:
+1. Go to Project Settings
+2. Copy all values under "Your apps > Web app"
+
+### STEP 3: Run Frontend Server
+```bash
+npm run dev        # Development mode with hot reload
+npm run build      # Production build
+npm run preview    # Preview production build
+```
+
+Frontend runs on: `http://localhost:5173`
+
+---
+
+## RUNNING BOTH TOGETHER
+
+### TERMINAL 1 - Backend
+```bash
+cd backend
+npm run dev
+```
+
+### TERMINAL 2 - Frontend
+```bash
+cd frontend
+npm run dev
+```
+
+Then open: `http://localhost:5173` in your browser
+
+---
+
+## INSTALLATION & RUNNING COMMANDS SUMMARY
+
+### FIRST TIME SETUP (Fresh Installation)
+```bash
+# Backend
+cd backend
+npm install
+# Create .env file with values
+npm run dev
+
+# Frontend (in new terminal)
+cd frontend
+npm install
+# Create .env file with values
+npm run dev
+```
+
+### DAILY DEVELOPMENT
+```bash
+# Terminal 1 - Backend
+cd backend
+npm run dev
+
+# Terminal 2 - Frontend
+cd frontend
+npm run dev
+```
+
+### PRODUCTION DEPLOYMENT
+```bash
+# Backend
+cd backend
+npm start
+
+# Frontend
+cd frontend
+npm run build
+# Deploy the dist/ folder to your hosting
+```
+
+---
+
+## TROUBLESHOOTING
+
+### Backend won't start:
+- Check MongoDB connection string in `.env`
+- Ensure port 5000 is not in use
+- Verify Firebase service account key exists
+
+### Frontend won't load:
+- Check API_BASE_URL in `.env` matches backend port
+- Clear browser cache and reload
+- Verify Firebase credentials are correct
+
+### API calls failing:
+- Ensure backend is running on port 5000
+- Check CORS settings in backend
+- Verify `.env` files in both folders
+
+---
+
+## PROJECT STRUCTURE
+
+```
+.
+├── backend/
+│   ├── models/           # Mongoose schemas
+│   ├── routes/           # API endpoints
+│   ├── middleware/       # Custom middleware
+│   ├── config/           # Configuration files
+│   ├── server.js         # Main entry point
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── pages/        # Route pages
+│   │   ├── components/   # Reusable components
+│   │   ├── context/      # React Context
+│   │   ├── services/     # API services
+│   │   └── main.jsx      # Entry point
+│   ├── public/           # Static assets
+│   └── package.json
+│
+└── README.md             # This file
+```
+
+---
+
+Created with ❤️ for full-stack e-commerce development
