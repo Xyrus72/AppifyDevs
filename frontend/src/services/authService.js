@@ -1,5 +1,61 @@
+import axios from 'axios';
 import { auth, googleProvider } from "../firebase";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+
+// Backend API URL - Change this to your deployed backend URL in production
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+
+// Store token so we can use it for cart, orders, etc.
+const TOKEN_KEY = 'backend_token';
+
+export const getToken = () => localStorage.getItem(TOKEN_KEY);
+export const setToken = (token) => {
+  if (token) localStorage.setItem(TOKEN_KEY, token);
+  else localStorage.removeItem(TOKEN_KEY);
+};
+
+/**
+ * Get headers with auth token for API calls. Use this when calling cart/orders/products (admin).
+ */
+export const getAuthHeaders = () => {
+  const token = getToken();
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {})
+  };
+};
+
+/**
+ * Save user login information to MongoDB backend and store the JWT token.
+ */
+export const saveLoginToDatabase = async (userData, role = 'customer') => {
+  try {
+    console.log('💾 Saving login to database...');
+
+    const response = await axios.post(
+      `${BACKEND_URL}/api/auth/login`,
+      {
+        uid: userData.uid,
+        email: userData.email,
+        name: userData.name,
+        photoURL: userData.photoURL,
+        role
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+
+    console.log('✅ Login saved to database:', response.data);
+    if (response.data.token) {
+      setToken(response.data.token);
+    }
+    return response.data;
+  } catch (error) {
+    console.warn('⚠️ Failed to save login to database:', error.message);
+    console.warn('User logged in to Firebase but not saved to MongoDB');
+    setToken(null);
+    return null;
+  }
+};
 
 // Google Sign In
 export const googleSignIn = async () => {
@@ -99,5 +155,88 @@ export const getCurrentUser = () => {
 export const isUserAuthenticated = async () => {
   const user = await getCurrentUser();
   return !!user;
+};
+
+/**
+ * Sign up with email and password
+ */
+export const emailSignUp = async (firstName, lastName, email, password) => {
+  try {
+    console.log('📝 Starting email sign-up...');
+    
+    // Create user account
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    const user = result.user;
+    
+    // Update profile with display name
+    const displayName = `${firstName} ${lastName}`.trim();
+    await updateProfile(user, {
+      displayName: displayName
+    });
+    
+    console.log('✅ Sign-up successful!');
+    console.log('User email:', user.email);
+    console.log('User name:', displayName);
+    console.log('User ID:', user.uid);
+    
+    return {
+      email: user.email,
+      name: displayName || email.split('@')[0],
+      uid: user.uid,
+      photoURL: user.photoURL || null
+    };
+  } catch (error) {
+    console.error('❌ Sign-up error:', error.code, error.message);
+    
+    // Handle specific error codes
+    if (error.code === 'auth/email-already-in-use') {
+      throw new Error('❌ This email is already registered. Please sign in instead.');
+    } else if (error.code === 'auth/weak-password') {
+      throw new Error('❌ Password is too weak. Use at least 6 characters.');
+    } else if (error.code === 'auth/invalid-email') {
+      throw new Error('❌ Invalid email address.');
+    } else {
+      throw new Error(`❌ ${error.message || 'Failed to sign up'}`);
+    }
+  }
+};
+
+/**
+ * Sign in with email and password
+ */
+export const emailSignIn = async (email, password) => {
+  try {
+    console.log('🔑 Starting email sign-in...');
+    
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    const user = result.user;
+    
+    console.log('✅ Sign-in successful!');
+    console.log('User email:', user.email);
+    console.log('User name:', user.displayName);
+    console.log('User ID:', user.uid);
+    
+    return {
+      email: user.email,
+      name: user.displayName || user.email.split('@')[0],
+      uid: user.uid,
+      photoURL: user.photoURL || null
+    };
+  } catch (error) {
+    console.error('❌ Sign-in error:', error.code, error.message);
+    
+    // Handle specific error codes
+    if (error.code === 'auth/user-not-found') {
+      throw new Error('❌ No account found with this email. Please sign up first.');
+    } else if (error.code === 'auth/wrong-password') {
+      throw new Error('❌ Incorrect password. Please try again.');
+    } else if (error.code === 'auth/invalid-email') {
+      throw new Error('❌ Invalid email address.');
+    } else if (error.code === 'auth/user-disabled') {
+      throw new Error('❌ This account has been disabled.');
+    } else {
+      throw new Error(`❌ ${error.message || 'Failed to sign in'}`);
+    }
+  }
 };
 

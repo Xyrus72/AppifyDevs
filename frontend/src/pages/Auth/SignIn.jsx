@@ -8,7 +8,7 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const { login } = useAuth()
+  const { login, emailLogin } = useAuth()
   const navigate = useNavigate()
   const role = 'customer'
 
@@ -17,12 +17,13 @@ const SignIn = () => {
     setError('')
     setLoading(true)
     try {
-      // For now, email/password login is a placeholder
-      // You can implement Firebase email authentication here
-      setError('Please use Google Sign In for now')
-      setLoading(false)
+      // Sign in with email and password
+      await emailLogin(email, password, role)
+      navigate('/customer-dashboard')
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'Failed to sign in. Please try again.')
+      console.error(err)
+    } finally {
       setLoading(false)
     }
   }

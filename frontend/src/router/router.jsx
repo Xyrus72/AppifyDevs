@@ -6,6 +6,7 @@ import Register from "../pages/Auth/Register";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import CustomerDashboard from "../pages/Dashboard/CustomerDashboard";
 import Products from "../pages/Products/Products";
+import Checkout from "../pages/Checkout/Checkout";
 import ProtectedRoute from "../components/ProtectedRoute";
 
 
@@ -47,6 +48,14 @@ export const router = createBrowserRouter([
                 element: (
                   <ProtectedRoute requiredRole="customer">
                     <Products />
+                  </ProtectedRoute>
+                )
+            },
+            {
+                path: "checkout",
+                element: (
+                  <ProtectedRoute requiredRole="customer">
+                    <Checkout />
                   </ProtectedRoute>
                 )
             }

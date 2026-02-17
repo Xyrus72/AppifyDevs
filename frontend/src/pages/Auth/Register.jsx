@@ -17,7 +17,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
-  const { login } = useAuth()
+  const { login, signup } = useAuth()
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
@@ -27,31 +27,38 @@ const Register = () => {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setError('')
+    
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!')
+      setError('Passwords do not match!')
       return
     }
     if (!formData.acceptTerms) {
-      alert('Please accept the terms and conditions')
+      setError('Please accept the terms and conditions')
       return
     }
     
-    // Register user
-    console.log('📝 Registration Started...')
-    console.log('User Details:', {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      role: formData.role
-    })
-    
-    console.log('✅ Registration Successful!')
-    console.log('Please sign in with your credentials')
-    
-    // Redirect to sign-in page
-    navigate('/signin')
+    setLoading(true)
+    try {
+      // Register user with email and password
+      await signup(
+        formData.firstName,
+        formData.lastName,
+        formData.email,
+        formData.password,
+        formData.role
+      )
+      
+      // Redirect to sign-in page after successful signup
+      navigate('/signin')
+    } catch (err) {
+      setError(err.message || 'Failed to create account. Please try again.')
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleGoogleSignUp = async () => {
@@ -59,9 +66,13 @@ const Register = () => {
     setLoading(true)
     try {
       await login(formData.role)
-      navigate('/customer-dashboard')
+      if (formData.role === 'admin') {
+        navigate('/admin-dashboard')
+      } else {
+        navigate('/customer-dashboard')
+      }
     } catch (err) {
-      setError('Failed to sign up with Google. Please try again.')
+      setError(err.message || 'Failed to sign up with Google. Please try again.')
       console.error(err)
     } finally {
       setLoading(false)

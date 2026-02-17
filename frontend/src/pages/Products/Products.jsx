@@ -1,21 +1,60 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import { useAuth } from '../../context/AuthContext'
 import shwapnoProducts from '../../data/shwapno_products.json'
 
 const Products = () => {
+  const navigate = useNavigate()
   const { user } = useAuth()
   const [cart, setCart] = useState([])
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [products, setProducts] = useState(shwapnoProducts)
 
-  // Reload products when needed
-  const reloadProducts = async () => {
-    // In future, this can fetch from your Flask API
-    setProducts(shwapnoProducts)
-  }
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const loadCart = () => {
+      const savedCart = localStorage.getItem('shoppingCart')
+      if (savedCart) {
+        try {
+          setCart(JSON.parse(savedCart))
+        } catch (e) {
+          console.error('Error loading cart:', e)
+          setCart([])
+        }
+      } else {
+        setCart([])
+      }
+    }
+
+    loadCart()
+
+    // Listen for cart updates (including clear cart from checkout)
+    const handleCartUpdate = () => {
+      loadCart()
+    }
+
+    window.addEventListener('cartUpdated', handleCartUpdate)
+    return () => window.removeEventListener('cartUpdated', handleCartUpdate)
+  }, [])
 
   const addToCart = (product) => {
-    setCart([...cart, product])
+    if (product.quantity <= 0) {
+      alert('This product is out of stock')
+      return
+    }
+    // Decrease quantity when added to cart
+    const updatedProducts = products.map(p => 
+      p.id === product.id 
+        ? { ...p, quantity: p.quantity - 1 }
+        : p
+    )
+    setProducts(updatedProducts)
+    const updatedCart = [...cart, { ...product, quantity: product.quantity - 1 }]
+    setCart(updatedCart)
+    // Save to localStorage and trigger storage event for navbar
+    localStorage.setItem('shoppingCart', JSON.stringify(updatedCart))
+    // Dispatch custom event to notify Navbar of cart change
+    window.dispatchEvent(new Event('cartUpdated'))
   }
 
   return (
@@ -30,17 +69,8 @@ const Products = () => {
       <section className="relative bg-gradient-to-br from-slate-900 via-blue-900/40 to-black border-b border-blue-500/20 py-16 px-8">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-6xl font-black mb-4 text-transparent bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text">Shop Our Products</h1>
-          <p className="text-xl text-gray-300 flex items-center gap-2 justify-between">
-            <span>Welcome, <span className="font-bold text-cyan-400">{user?.name}</span> 👋</span>
-            <span className="ml-auto bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 px-4 py-2 rounded-lg flex items-center gap-2">
-              Cart ({cart.length}) 
-              <button 
-                onClick={reloadProducts}
-                className="ml-4 bg-cyan-600 hover:bg-cyan-500 px-3 py-1 rounded text-sm transition"
-              >
-                🔄 Reload
-              </button>
-            </span>
+          <p className="text-xl text-gray-300">
+            Welcome, <span className="font-bold text-cyan-400">{user?.name}</span> 👋
           </p>
         </div>
       </section>
@@ -72,13 +102,25 @@ const Products = () => {
                     <p className="text-gray-400 text-sm mb-4">{product.description}</p>
                     
                     {/* Price & Button */}
-                    <div className="flex items-center justify-between mt-auto">
-                      <p className="text-2xl font-black text-cyan-400">{product.price}</p>
+                    <div className="flex items-center justify-between mt-auto gap-4">
+                      <div>
+                        <p className="text-2xl font-black text-cyan-400">{product.price}</p>
+                        <p className="text-sm text-gray-400 mt-1">
+                          Stock: <span className={product.quantity > 0 ? 'text-green-400 font-bold' : 'text-red-400 font-bold'}>
+                            {product.quantity > 0 ? product.quantity : 'Out of Stock'}
+                          </span>
+                        </p>
+                      </div>
                       <button
                         onClick={() => addToCart(product)}
-                        className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white px-4 py-2 rounded-lg font-bold transition transform hover:scale-105 shadow-lg"
+                        disabled={product.quantity <= 0}
+                        className={`font-bold transition transform hover:scale-105 shadow-lg px-4 py-2 rounded-lg ${
+                          product.quantity > 0 
+                            ? 'bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white' 
+                            : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                        }`}
                       >
-                        🛒 Add
+                        {product.quantity > 0 ? '🛒 Add' : '❌ Out'}
                       </button>
                     </div>
                   </div>
@@ -88,42 +130,6 @@ const Products = () => {
           </div>
         </div>
       </section>
-
-      {/* Cart Summary */}
-      {cart.length > 0 && (
-        <section className="py-16 px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-emerald-600/20 rounded-3xl blur-lg opacity-50 group-hover:opacity-75 transition duration-300"></div>
-              <div className="relative bg-gradient-to-r from-green-600 to-emerald-600 text-white p-12 rounded-3xl border border-green-500/50 overflow-hidden shadow-2xl">
-                <h3 className="text-3xl font-black mb-4">🛒 Cart Summary</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                  <div>
-                    <p className="text-green-100 text-sm mb-2">Total Items</p>
-                    <p className="text-5xl font-black">{cart.length}</p>
-                  </div>
-                  <div>
-                    <p className="text-green-100 text-sm mb-2">Total Amount</p>
-                    <p className="text-5xl font-black">${cart.reduce((sum, p) => sum + p.price, 0)}</p>
-                  </div>
-                  <div className="flex items-end">
-                    <button className="w-full bg-white text-green-600 px-10 py-4 rounded-xl font-bold hover:bg-green-50 transition text-lg transform hover:scale-105 shadow-lg">
-                      Proceed to Checkout
-                    </button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  {cart.map((item, idx) => (
-                    <p key={idx} className="text-green-100">
-                      {item.name} - <span className="font-bold">${item.price}</span>
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   )
 }
