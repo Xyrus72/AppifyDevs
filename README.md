@@ -1,194 +1,209 @@
-# E-COMMERCE PLATFORM - COMPLETE GUIDE
+E-COMMERCE PLATFORM - COMPLETE GUIDE
+================================================================================
 
-## FRONTEND TECH STACK
+FRONTEND TECH STACK
+================================================================================
 
-### Core Framework & Build:
-- **React** (v19.2.0) - UI library with Hooks and components
-- **Vite** (v7.3.1) - Lightning-fast build tool and dev server
-- **React Router DOM** (v7.13.0) - Client-side routing for multi-page navigation
+Core Framework & Build:
+  • React (v19.2.0) - UI library with Hooks and components
+  • Vite (v7.3.1) - Lightning-fast build tool and dev server
+  • React Router DOM (v7.13.0) - Client-side routing for multi-page navigation
 
-### Styling:
-- **Tailwind CSS** (v4.1.18) - Utility-first CSS framework
-- **PostCSS** (v8.5.6) - CSS transformation tool
-- **Autoprefixer** (v10.4.24) - Vendor prefix auto-generation
+Styling:
+  • Tailwind CSS (v4.1.18) - Utility-first CSS framework
+  • PostCSS (v8.5.6) - CSS transformation tool
+  • Autoprefixer (v10.4.24) - Vendor prefix auto-generation
 
-### State & Authentication:
-- **Firebase** (v12.9.0) - Authentication, real-time data, and cloud services
-- **React Context API** - Built-in state management (AuthContext)
+State & Authentication:
+  • Firebase (v12.9.0) - Authentication, real-time data, and cloud services
+  • React Context API - Built-in state management (AuthContext)
 
-### HTTP & Data:
-- **Axios** (v1.13.5) - Promise-based HTTP client for API calls
+HTTP & Data:
+  • Axios (v1.13.5) - Promise-based HTTP client for API calls
 
-### Web Scraping (Utilities):
-- **Puppeteer** (v24.37.3) - Headless browser automation
-- **Cheerio** (v1.2.0) - jQuery-like syntax for parsing HTML
+Web Scraping (Utilities):(tried my best but unfinished work)
+  • Puppeteer (v24.37.3) - Headless browser automation
+  • Cheerio (v1.2.0) - jQuery-like syntax for parsing HTML
+  • Crawl4ai - Advanced web scraping
+  • DeepSeek - AI-powered data extraction
+  • Groq - High-speed processing
 
-### Development & Linting:
-- **ESLint** (v9.39.1) - Code quality and error detection
-- **ESLint plugins** - React hooks and refresh support
-- **Vite React Plugin** - Fast React HMR (Hot Module Replacement)
+Development & Linting:
+  • ESLint (v9.39.1) - Code quality and error detection
+  • ESLint plugins - React hooks and refresh support
+  • Vite React Plugin - Fast React HMR (Hot Module Replacement)
 
-### Key Frontend Features:
-- Real-time customer-admin messaging (CentralChat)
-- Product catalog with static JSON and database-driven items
-- Shopping cart with localStorage persistence
-- Secure checkout with payment processing
-- Order timeline and order history
-- Support chat interface
-- Responsive design with Tailwind CSS
+Key Frontend Features:
+  ✓ Real-time customer-admin messaging (CentralChat)
+  ✓ Product catalog with static JSON and database-driven items
+  ✓ Shopping cart with localStorage persistence
+  ✓ Secure checkout with payment processing
+  ✓ Order timeline and order history
+  ✓ Support chat interface
+  ✓ Responsive design with Tailwind CSS
 
----
 
-## BACKEND TECH STACK
+BACKEND TECH STACK
+================================================================================
 
-### Core Framework & Server:
-- **Node.js** - JavaScript runtime
-- **Express.js** (v4.18.2) - Web application framework and routing
-- **Nodemon** (v3.0.1) - Auto-reload development server
+Core Framework & Server:
+  • Node.js - JavaScript runtime
+  • Express.js (v4.18.2) - Web application framework and routing
+  • Nodemon (v3.0.1) - Auto-reload development server
 
-### Database & ORM:
-- **MongoDB** - NoSQL database
-- **Mongoose** (v7.5.0) - ODM (Object Data Modeling) for MongoDB with schema validation
+Database & ORM:
+  • MongoDB - NoSQL database
+  • Mongoose (v7.5.0) - ODM (Object Data Modeling) for MongoDB with schema validation
 
-### Authentication & Security:
-- **Firebase Admin SDK** - Server-side Firebase authentication and user management
-- **JWT** (JSON Web Tokens) (v9.0.3) - Token-based session management
-- **Express Validator** (v7.0.0) - Input validation and sanitization
+Authentication & Security:
+  • Firebase Admin SDK - Server-side Firebase authentication and user management
+  • JWT (JSON Web Tokens) (v9.0.3) - Token-based session management
+  • Express Validator (v7.0.0) - Input validation and sanitization
 
-### API & Middleware:
-- **CORS** (v2.8.5) - Cross-Origin Resource Sharing for frontend communication
-- **dotenv** (v16.3.1) - Environment variable management
+API & Middleware:
+  • CORS (v2.8.5) - Cross-Origin Resource Sharing for frontend communication
+  • dotenv (v16.3.1) - Environment variable management
 
-### Key Backend Features:
-- RESTful API with Express.js
-- MongoDB session-based transactions for atomic operations
-- Firebase + MongoDB hybrid authentication system
-- Role-based access control (customer, admin)
-- Order management with stock tracking
-- Real-time message system with auto-polling
-- Financial transaction tracking with refund logic
-- Product management (static & dynamic)
-- User wallet and spending analytics
+Key Backend Features:
+  ✓ RESTful API with Express.js
+  ✓ MongoDB session-based transactions for atomic operations
+  ✓ Firebase + MongoDB hybrid authentication system
+  ✓ Role-based access control (customer, admin)
+  ✓ Order management with stock tracking
+  ✓ Real-time message system with auto-polling
+  ✓ Financial transaction tracking with refund logic
+  ✓ Product management (static & dynamic)
+  ✓ User wallet and spending analytics
 
----
 
-## KEY COMPONENTS USED ACROSS WEBSITE
 
-### Frontend:
-- React 19 - UI framework with hooks
-- Vite - Build tool and dev server
-- Tailwind CSS - Styling
-- Firebase - User authentication
-- React Router - Navigation
-- Axios - API calls
 
-### Backend:
-- Express.js - Server framework
-- MongoDB - Database
-- Mongoose - Schema & validation
-- Firebase Admin SDK - Authentication
-- JWT - Session tokens
-- MongoDB Transactions - Atomic operations
 
-### Web Scraping (Utilities):
-- Crawl4ai, DeepSeek, Groq (in development - will be improved later, public on GitHub)
+CORE FEATURES
+================================================================================
 
-### Core Features:
-1. **Authentication** - Firebase + MongoDB hybrid system
-2. **Real-time Chat** - Customer-admin messaging with auto-refresh
-3. **Order Processing** - With MongoDB transactions for data consistency
-4. **Financial Tracking** - User balance, totalSpent, refund logic
-5. **Product Management** - Static catalog + admin-added products
-6. **Cart System** - With localStorage persistence
-7. **Role-based Access** - Customer vs Admin pages
-8. **Order Cancellation** - With automatic refunds and stock restoration
+1. Authentication - Firebase + MongoDB hybrid system
+2. Real-time Chat - Customer-admin messaging with auto-refresh (1000ms polling)
+3. Order Processing - MongoDB transactions for data consistency
+4. Financial Tracking - User balance, totalSpent, refund logic
+5. Product Management - Static JSON catalog + admin-added database products
+6. Cart System - localStorage persistence with real-time stock reduction
+7. Role-based Access - Separate Customer vs Admin pages
+8. Order Cancellation - Automatic refunds and stock restoration
+9. Order Timeline - Visual status tracking
+10. Admin Dashboard - Customer analytics and order management
 
-### Database Models:
-- User (balance, totalSpent, transactions)
-- Order (items, status, timeline)
-- Product (stock, pricing)
-- Message & Conversation (chat system)
 
----
+DATABASE MODELS
+================================================================================
 
-## COMPLETE SETUP GUIDE
+User Model:
+  • _id: Firebase UID
+  • email: User email
+  • name: Full name
+  • role: 'customer' | 'admin'
+  • balance: Refundable wallet amount
+  • totalSpent: Cumulative spending (persisted in DB)
+  • transactions: Array of transaction history
+  • loginHistory: Array of login timestamps
 
-### PREREQUISITES
+Order Model:
+  • user: Reference to User
+  • items: Array of products with quantities
+  • totalAmount: Order total
+  • status: pending | confirmed | shipped | delivered | cancelled
+  • paymentStatus: paid | refunded | pending
+  • timeline: Order status history
+  • cancelledAt: Timestamp when cancelled
+  • cancelledBy: 'customer' | 'admin'
 
-You need to install:
-- **Node.js** (v16+) - Download from nodejs.org
-- **MongoDB** - Either local installation or MongoDB Atlas (cloud)
-- **Firebase Account** - Create at firebase.google.com
-- **Git** - For version control
-- **npm** - Comes with Node.js
+Product Model:
+  • name: Product name
+  • description: Product description
+  • price: Product price
+  • category: Product category
+  • stock: Available quantity
+  • image: Product image URL
+  • createdAt: Timestamp
+  • createdBy: Admin ID (for newly arrived items)
 
----
+Message & Conversation Model:
+  • user: Customer ID
+  • messages: Array of message objects
+  • lastAdminMessageId: Tracking for auto-scroll
 
-## BACKEND SETUP
 
-### STEP 1: Install Dependencies
-```bash
-cd backend
-npm install
-```
+PREREQUISITES FOR SETUP
+================================================================================
 
-This installs:
-- `express` - Web server
-- `mongoose` - MongoDB connection & schemas
-- `cors` - Allow frontend requests
-- `dotenv` - Environment variables
-- `jsonwebtoken` - JWT authentication
-- `express-validator` - Input validation
-- `nodemon` - Auto-reload during development
+Required Installations:
+  ✓ Node.js (v16+) - Download from nodejs.org
+  ✓ MongoDB - Local installation OR MongoDB Atlas (cloud)
+  ✓ Firebase Account - Create at firebase.google.com
+  ✓ Git - For version control
+  ✓ npm - Comes with Node.js
 
-### STEP 2: Create .env File
+Recommended:
+  • VS Code - Code editor
+  • Postman - API testing
+  • MongoDB Compass - Database GUI
 
-In `backend/` folder, create `.env` file with:
 
-```
+BACKEND SETUP GUIDE
+================================================================================
+
+STEP 1: Install Dependencies
+$ cd backend
+$ npm install
+
+Packages installed:
+  • express (v4.18.2) - Web server
+  • mongoose (v7.5.0) - MongoDB connection & schemas
+  • cors (v2.8.5) - Allow frontend requests
+  • dotenv (v16.3.1) - Environment variables
+  • jsonwebtoken (v9.0.3) - JWT authentication
+  • express-validator (v7.0.0) - Input validation
+  • nodemon (v3.0.1) - Auto-reload during development
+
+STEP 2: Create .env File
+In backend/ folder, create .env file with:
+
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ecommerce
 PORT=5000
 NODE_ENV=development
 FIREBASE_SERVICE_ACCOUNT_KEY=path_to_your_service_account.json
 SESSION_SECRET=your_random_secret_key_here
-```
 
-Get these values:
-- `MONGODB_URI`: From MongoDB Atlas (Connection String)
-- `FIREBASE_SERVICE_ACCOUNT_KEY`: From Firebase Console > Project Settings > Service Accounts
+Where to get values:
+  • MONGODB_URI: MongoDB Atlas > Connect > Connection String
+  • FIREBASE_SERVICE_ACCOUNT_KEY: Firebase Console > Project Settings > Service Accounts
 
-### STEP 3: Run Backend Server
-```bash
-npm start       # Production mode
-npm run dev     # Development mode (with auto-reload)
-```
+STEP 3: Run Backend Server
+$ npm start        # Production mode
+$ npm run dev      # Development mode (with auto-reload)
 
-Server runs on: `http://localhost:5000`
+✓ Server runs on: http://localhost:5000
 
----
 
-## FRONTEND SETUP
+FRONTEND SETUP GUIDE
+================================================================================
 
-### STEP 1: Install Dependencies
-```bash
-cd frontend
-npm install
-```
+STEP 1: Install Dependencies
+$ cd frontend
+$ npm install
 
-This installs:
-- `react` - UI framework
-- `react-dom` - React rendering
-- `react-router-dom` - Page routing
-- `vite` - Build tool
-- `tailwindcss` - Styling
-- `axios` - API requests
-- `firebase` - Authentication
+Packages installed:
+  • react (v19.2.0) - UI framework
+  • react-dom (v19.2.0) - React rendering
+  • react-router-dom (v7.13.0) - Page routing
+  • vite (v7.3.1) - Build tool
+  • tailwindcss (v4.1.18) - Styling
+  • axios (v1.13.5) - API requests
+  • firebase (v12.9.0) - Authentication
 
-### STEP 2: Create .env File
+STEP 2: Create .env File
+In frontend/ folder, create .env file with:
 
-In `frontend/` folder, create `.env` file with:
-
-```
 VITE_API_BASE_URL=http://localhost:5000/api
 VITE_FIREBASE_API_KEY=your_firebase_api_key
 VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
@@ -196,127 +211,220 @@ VITE_FIREBASE_PROJECT_ID=your_project_id
 VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
-```
 
-Get these values from Firebase Console:
-1. Go to Project Settings
-2. Copy all values under "Your apps > Web app"
+Where to get values:
+  1. Go to Firebase Console > Project Settings
+  2. Click on "Your apps" section
+  3. Select your web app
+  4. Copy all values shown
 
-### STEP 3: Run Frontend Server
-```bash
-npm run dev        # Development mode with hot reload
-npm run build      # Production build
-npm run preview    # Preview production build
-```
+STEP 3: Run Frontend Server
+$ npm run dev       # Development mode (hot reload enabled)
+$ npm run build     # Production build
+$ npm run preview   # Preview production build locally
 
-Frontend runs on: `http://localhost:5173`
+✓ Frontend runs on: http://localhost:5173
 
----
 
-## RUNNING BOTH TOGETHER
+RUNNING BOTH SIMULTANEOUSLY
+================================================================================
 
-### TERMINAL 1 - Backend
-```bash
-cd backend
-npm run dev
-```
+Open Two Terminals
 
-### TERMINAL 2 - Frontend
-```bash
-cd frontend
-npm run dev
-```
+Terminal 1 - Backend:
+  $ cd backend
+  $ npm run dev
 
-Then open: `http://localhost:5173` in your browser
+Terminal 2 - Frontend (after backend is ready):
+  $ cd frontend
+  $ npm run dev
 
----
+Then open browser: http://localhost:5173
 
-## INSTALLATION & RUNNING COMMANDS SUMMARY
 
-### FIRST TIME SETUP (Fresh Installation)
-```bash
-# Backend
-cd backend
-npm install
-# Create .env file with values
-npm run dev
+QUICK COMMANDS REFERENCE
+================================================================================
 
-# Frontend (in new terminal)
-cd frontend
-npm install
-# Create .env file with values
-npm run dev
-```
+FIRST TIME SETUP (Fresh Installation):
 
-### DAILY DEVELOPMENT
-```bash
-# Terminal 1 - Backend
-cd backend
-npm run dev
+Backend Setup:
+  $ cd backend
+  $ npm install
+  [Create .env file with MongoDB and Firebase credentials]
+  $ npm run dev
 
-# Terminal 2 - Frontend
-cd frontend
-npm run dev
-```
+Frontend Setup (in new terminal):
+  $ cd frontend
+  $ npm install
+  [Create .env file with Firebase credentials]
+  $ npm run dev
 
-### PRODUCTION DEPLOYMENT
-```bash
-# Backend
-cd backend
-npm start
+DAILY DEVELOPMENT:
 
-# Frontend
-cd frontend
-npm run build
-# Deploy the dist/ folder to your hosting
-```
+Terminal 1 - Backend:
+  $ cd backend
+  $ npm run dev
 
----
+Terminal 2 - Frontend:
+  $ cd frontend
+  $ npm run dev
 
-## TROUBLESHOOTING
+PRODUCTION DEPLOYMENT:
 
-### Backend won't start:
-- Check MongoDB connection string in `.env`
-- Ensure port 5000 is not in use
-- Verify Firebase service account key exists
+Backend:
+  $ cd backend
+  $ npm start
 
-### Frontend won't load:
-- Check API_BASE_URL in `.env` matches backend port
-- Clear browser cache and reload
-- Verify Firebase credentials are correct
+Frontend:
+  $ cd frontend
+  $ npm run build
+  [Deploy the 'dist/' folder to your hosting provider]
 
-### API calls failing:
-- Ensure backend is running on port 5000
-- Check CORS settings in backend
-- Verify `.env` files in both folders
 
----
+TROUBLESHOOTING GUIDE
+================================================================================
 
-## PROJECT STRUCTURE
+Backend Issues:
 
-```
-.
-├── backend/
-│   ├── models/           # Mongoose schemas
-│   ├── routes/           # API endpoints
-│   ├── middleware/       # Custom middleware
-│   ├── config/           # Configuration files
-│   ├── server.js         # Main entry point
-│   └── package.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── pages/        # Route pages
-│   │   ├── components/   # Reusable components
-│   │   ├── context/      # React Context
-│   │   ├── services/     # API services
-│   │   └── main.jsx      # Entry point
-│   ├── public/           # Static assets
-│   └── package.json
-│
-└── README.md             # This file
-```
+Problem: Backend won't start
+Solution:
+  → Check MongoDB connection string in .env is correct
+  → Verify port 5000 is not in use (netstat -ano | findstr :5000)
+  → Confirm Firebase service account JSON file exists
 
----
+Problem: Database connection timeout
+Solution:
+  → Check internet connection
+  → Verify MongoDB Atlas IP whitelist includes your IP
+  → Try local MongoDB if using Atlas
 
-Created with ❤️ for full-stack e-commerce development
+Problem: CORS errors from frontend
+Solution:
+  → Ensure backend is running on http://localhost:5000
+  → Check CORS configuration in backend server.js
+
+
+Frontend Issues:
+
+Problem: Frontend won't load
+Solution:
+  → Check API_BASE_URL in .env matches backend port (5000)
+  → Clear browser cache and reload (Ctrl+Shift+Delete)
+  → Verify Firebase credentials are correct in .env
+
+Problem: API calls failing (Network error)
+Solution:
+  → Ensure backend is running on http://localhost:5000
+  → Check VITE_API_BASE_URL env variable
+  → Open DevTools (F12) to see network requests
+
+Problem: Auth not working
+Solution:
+  → Verify Firebase API key in .env
+  → Check Firebase project in console
+  → Ensure Firebase SDK initialized properly
+
+
+General Troubleshooting:
+
+Problem: Node modules issues
+Solution:
+  $ rm -r node_modules package-lock.json  (Windows: del /S /Q node_modules)
+  $ npm install
+
+Problem: Port already in use
+Solution:
+  Windows: netstat -ano | findstr :5000
+  Mac/Linux: lsof -i :5000
+  Then kill the process or change PORT in .env
+
+
+
+
+
+KEY ARCHITECTURAL DECISIONS
+================================================================================
+
+1. Firebase + MongoDB Hybrid Auth
+   Why: Firebase handles auth UI/UX, MongoDB stores app-specific user data
+   
+2. Separate Chat System
+   Why: Real-time customer-admin communication with polling instead of WebSockets
+   
+3. MongoDB Transactions
+   Why: Ensures atomic order operations (stock, balance, totalSpent in one transaction)
+   
+4. Static + Dynamic Products
+   Why: Separates curated catalog (JSON) from admin-managed inventory (MongoDB)
+   
+5. Dual Spending Fields (balance + totalSpent)
+   Why: balance for wallet, totalSpent for analytics (not reversed on refunds)
+   
+6. Role-Based Page Protection
+   Why: Security at route level, components respect user roles
+   
+7. localStorage for Cart
+   Why: Simple persistence without server, syncs on checkout
+
+
+ASSUMPTIONS MADE
+================================================================================
+
+User Access:
+  • Each user has unique Firebase UID
+  • Users authenticate before accessing protected routes
+  • Admin role assigned manually in MongoDB
+  • Email is unique per user
+
+Products & Inventory:
+  • Stock quantities never go negative
+  • Products have consistent schema (static vs database)
+  • Product images stored as URLs (not file uploads)
+  • Categories are predefined and fixed
+
+Orders & Payments:
+  • All payments processed upfront (balance deduction)
+  • Orders cannot be modified after creation (only cancellation)
+  • Order totals immutable once created
+  • Shipped/delivered orders cannot be cancelled
+  • Max 3 cancellations per customer in 30 days
+
+Financial Tracking:
+  • totalSpent reflects NET spending (excludes cancelled orders)
+  • Balance never goes negative in active operations
+  • Transactions immutable (created once, never deleted)
+  • All currency in Bengali Taka (৳)
+
+Chat & Messaging:
+  • One conversation per customer with admin team
+  • Admin shown as generic "Admin" to customers
+  • Messages sent synchronously and persisted immediately
+  • Chat available only to authenticated users
+
+Data & Infrastructure:
+  • MongoDB always available (no offline mode)
+  • Sessions don't persist across server restarts
+  • User data loaded on authentication
+  • Cart persisted in browser localStorage
+
+
+DEPLOYMENT NOTES
+================================================================================
+
+Before deploying to production:
+  1. Set NODE_ENV=production in backend .env
+  2. Build frontend: npm run build
+  3. Use secure MongoDB connection strings
+  4. Enable Firebase security rules in console
+  5. Configure CORS for production domain
+  6. Use environment-specific Firebase projects
+  7. Set up proper error logging and monitoring
+  8. Enable HTTPS for all connections
+  9. Implement rate limiting on API endpoints
+  10. Set up automated backups for MongoDB
+
+
+SUPPORT & RESOURCES
+
+Last Updated: February 18, 2026
+================================================================================
